@@ -12,13 +12,20 @@ namespace ProjectEuler71
         private long Numerator;
         private long Denominator;
 
-        public Fraction(long x, long y=1)
+        public Fraction(long x, long y = 1)
         {
             Numerator = x;
             Denominator = y;
-            long gcd = GCD(x, y);
-            Numerator /= gcd;
-            Denominator /= gcd;
+            if (x == 0)
+            {
+                y = 0;
+            }
+            else
+            {
+                long gcd = GCD(x, y);
+                Numerator /= gcd;
+                Denominator /= gcd;
+            }
         }
 
         public override bool Equals(Object obj)
@@ -37,7 +44,7 @@ namespace ProjectEuler71
 
         public override string ToString()
         {
-            return Numerator + " " + Denominator;
+            return "[" + Numerator + "/" + Denominator + "]";
         }
 
         public static bool operator ==(Fraction one, Fraction two)
@@ -90,22 +97,36 @@ namespace ProjectEuler71
             return new Fraction(x.Numerator * y.Denominator, x.Denominator * y.Numerator);
         }
 
-        private static long GCD(long x, long y)
+        public long GCD(long n, long m)
         {
-            if(x==y) return x;
-            if (x >= y) return GCD(x - y, y);
-            else return GCD(x, y - x);
+            if (m <= n && n % m == 0)
+                return m;
+            if (n < m)
+                return GCD(m, n);
+            return GCD(m, n % m);
         }
+       
     }
+    
 
     class Program
     {
         static void Main(string[] args)
         {
-            Fraction x = new Fraction(3);
-            Fraction y = new Fraction(6, 2);
+            Fraction max = new Fraction(3, 7);
 
-            Console.Write((x == y) +" "+x*y+" ");
+            Fraction Candidate;
+            Fraction Largest = new Fraction(1, 1000);
+            for (int d = 8; d <= 1000000; d++)
+            {
+                Candidate = new Fraction(3*d/7, d);
+                if (Candidate == max) continue;
+                if (Candidate > Largest)
+                {
+                    Largest = Candidate;
+                }
+            }
+            Console.WriteLine(Largest);
         }
     }
 }
