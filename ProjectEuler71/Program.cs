@@ -104,10 +104,8 @@ namespace ProjectEuler71
             if (n < m)
                 return GCD(m, n);
             return GCD(m, n % m);
-        }
-       
-    }
-    
+        }     
+    }    
 
     class Program
     {
